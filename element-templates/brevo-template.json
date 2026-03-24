@@ -1,0 +1,300 @@
+{
+  "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
+  "name": "Brevo Notification Connector",
+  "id": "io.camunda.connector.brevotemplate.v1",
+  "version": 8,
+  "description": "Send Email / SMS / WhatsApp via Brevo Notification Connector",
+  "category": {
+    "id": "connectors",
+    "name": "Connectors"
+  },
+  "appliesTo": [
+    "bpmn:Task"
+  ],
+  "elementType": {
+    "value": "bpmn:ServiceTask"
+  },
+  "groups": [
+    {
+      "id": "authentication",
+      "label": "Authentication"
+    },
+    {
+      "id": "notification",
+      "label": "Notification Details"
+    },
+    {
+      "id": "output",
+      "label": "Output mapping"
+    },
+    {
+      "id": "error",
+      "label": "Error handling"
+    },
+    {
+      "id": "retries",
+      "label": "Retries"
+    }
+  ],
+  "properties": [
+    {
+      "type": "Hidden",
+      "value": "brevo-notification-connector",
+      "binding": {
+        "type": "zeebe:taskDefinition",
+        "property": "type"
+      }
+    },
+    {
+      "label": "API Key",
+      "type": "String",
+      "group": "authentication",
+      "feel": "optional",
+      "binding": {
+        "type": "zeebe:input",
+        "name": "apiKey"
+      },
+      "constraints": {
+        "notEmpty": true
+      },
+      "description": "Brevo API Key"
+    },
+    {
+      "id": "notification.notificationType",
+      "label": "Notification Type",
+      "type": "Dropdown",
+      "group": "notification",
+      "value": "email",
+      "constraints": {
+        "notEmpty": true
+      },
+      "binding": {
+        "type": "zeebe:input",
+        "name": "notificationType"
+      },
+      "choices": [
+        {
+          "name": "Email",
+          "value": "email"
+        },
+        {
+          "name": "SMS",
+          "value": "sms"
+        },
+        {
+          "name": "WhatsApp",
+          "value": "whatsapp"
+        }
+      ]
+    },
+    {
+      "id": "notification.email",
+      "label": "Email Sender Address",
+      "type": "String",
+      "feel": "optional",
+      "group": "notification",
+      "binding": {
+        "type": "zeebe:input",
+        "name": "sender"
+      },
+      "constraints": {
+        "notEmpty": true
+      },
+      "condition": {
+        "property": "notification.notificationType",
+        "equals": "email"
+      }
+    },
+    {
+      "id": "notification.email",
+      "label": "Email Receiver Address",
+      "type": "String",
+      "feel": "optional",
+      "group": "notification",
+      "binding": {
+        "type": "zeebe:input",
+        "name": "receiver"
+      },
+      "constraints": {
+        "notEmpty": true
+      },
+      "condition": {
+        "property": "notification.notificationType",
+        "equals": "email"
+      }
+    },
+    {
+      "id": "notification.phone",
+      "label": "Phone sender Number",
+      "type": "String",
+      "feel": "optional",
+      "group": "notification",
+      "binding": {
+        "type": "zeebe:input",
+        "name": "sender"
+      },
+      "constraints": {
+        "notEmpty": true
+      },
+      "condition": {
+        "property": "notification.notificationType",
+        "equals": "sms"
+      }
+    },
+    {
+      "id": "notification.phone",
+      "label": "Phone Receiver Number",
+      "type": "String",
+      "feel": "optional",
+      "group": "notification",
+      "binding": {
+        "type": "zeebe:input",
+        "name": "receiver"
+      },
+      "constraints": {
+        "notEmpty": true
+      },
+      "condition": {
+        "property": "notification.notificationType",
+        "equals": "sms"
+      }
+    },
+    {
+      "id": "notification.phoneWhatsapp",
+      "label": "WhatsApp Sender Number",
+      "type": "String",
+      "feel": "optional",
+      "group": "notification",
+      "binding": {
+        "type": "zeebe:input",
+        "name": "sender"
+      },
+      "constraints": {
+        "notEmpty": true
+      },
+      "condition": {
+        "property": "notification.notificationType",
+        "equals": "whatsapp"
+      }
+    },
+    {
+      "id": "notification.phoneWhatsapp",
+      "label": "WhatsApp Receiver Number",
+      "type": "String",
+      "feel": "optional",
+      "group": "notification",
+      "binding": {
+        "type": "zeebe:input",
+        "name": "receiver"
+      },
+      "constraints": {
+        "notEmpty": true
+      },
+      "condition": {
+        "property": "notification.notificationType",
+        "equals": "whatsapp"
+      }
+    },
+    {
+      "id": "notification.message",
+      "label": "Message Body",
+      "type": "Text",
+      "feel": "optional",
+      "group": "notification",
+      "binding": {
+        "type": "zeebe:input",
+        "name": "messageBody"
+      },
+      "constraints": {
+        "notEmpty": true
+      },
+      "condition": {
+        "property": "notification.notificationType",
+        "oneOf": [
+          "sms",
+          "whatsapp"
+        ]
+      }
+    },
+    {
+      "id": "notification.htmlMessage",
+      "label": "HTML Email Body",
+      "type": "Text",
+      "feel": "optional",
+      "group": "notification",
+      "binding": {
+        "type": "zeebe:input",
+        "name": "messageBody"
+      },
+      "constraints": {
+        "notEmpty": true
+      },
+      "condition": {
+        "property": "notification.notificationType",
+        "equals": "email"
+      }
+    },
+    {
+      "label": "Result Variable",
+      "description": "Process variable to store response",
+      "type": "String",
+      "group": "output",
+      "value": "notificationResult",
+      "binding": {
+        "type": "zeebe:taskHeader",
+        "key": "resultVariable"
+      }
+    },
+    {
+      "label": "Result Expression",
+      "description": "Expression to map the response into process variables",
+      "type": "Text",
+      "group": "output",
+      "feel": "required",
+      "binding": {
+        "type": "zeebe:taskHeader",
+        "key": "resultExpression"
+      }
+    },
+    {
+      "id": "errorExpression",
+      "label": "Error expression",
+      "description": "Expression to handle errors. Details in the <a href=\"https://docs.camunda.io/docs/components/connectors/use-connectors/\" target=\"_blank\">documentation</a>.",
+      "feel": "required",
+      "group": "error",
+      "binding": {
+        "key": "errorExpression",
+        "type": "zeebe:taskHeader"
+      },
+      "type": "Text"
+    },
+    {
+      "id": "retryCount",
+      "label": "Retries",
+      "description": "Number of retries",
+      "value": "3",
+      "feel": "optional",
+      "group": "retries",
+      "binding": {
+        "property": "retries",
+        "type": "zeebe:taskDefinition"
+      },
+      "type": "String"
+    },
+    {
+      "id": "retryBackoff",
+      "label": "Retry backoff",
+      "description": "ISO-8601 duration to wait between retries",
+      "value": "PT0S",
+      "group": "retries",
+      "binding": {
+        "key": "retryBackoff",
+        "type": "zeebe:taskHeader"
+      },
+      "type": "String"
+    }
+  ],
+  "icon": {
+    "contents": "data:image/jpeg;base64,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"
+  }
+}
