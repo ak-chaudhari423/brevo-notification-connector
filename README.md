@@ -16,11 +16,10 @@ This connector allows process automation to trigger real-time communication with
 
 ---
 
-##Connector UI
+## Connector UI
 
-<p align="center">
-  <img width="974" height="549" alt="Connector UI" src="https://github.com/user-attachments/assets/7a646457-66f1-45f7-9a8a-ba9c24c9b188" />
-</p>
+<img width="970" height="528" alt="image" src="https://github.com/user-attachments/assets/fe892f20-e3ac-48c7-abd4-2d93ca3531d2" />
+
 
 ---
 
